@@ -58,8 +58,6 @@ namespace Plater
         bmp[0] = new Bitmap(width_, height_);
         bmp[0]->placeholder();
 
-        Point3 minP = model.min();
-        Point3 maxP = model.max();
         width = width_;
         height = height_;
     }

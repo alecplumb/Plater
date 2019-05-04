@@ -10,7 +10,7 @@ namespace Plater
     class Solution
     {
         public:
-            Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_, std::vector<Rectangle*> excludes);
+            Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_, std::vector<Rectangle*> excludes_);
             virtual ~Solution();
             float score();
 

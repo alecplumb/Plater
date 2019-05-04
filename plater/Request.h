@@ -65,7 +65,8 @@ namespace Plater
 
             std::map<std::string, int> quantities;
             std::map<std::string, Part*> parts;
-    
+            std::vector<Rectangle*> excludes;
+   
             // Request error
             bool hasError;
             std::string error;
@@ -92,7 +93,6 @@ namespace Plater
             void readParts();
             std::string readLine();
             std::istream *stream;
-            std::vector<Rectangle*> excludes;
     };
 }
 

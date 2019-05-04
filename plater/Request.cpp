@@ -144,7 +144,6 @@ namespace Plater
         parts.clear();
         quantities.clear();
 
-        cerr << "reading lines" << endl;
         hasError = false;
         while (!stream->eof()) {
             string line = readLine();
@@ -153,7 +152,6 @@ namespace Plater
                 vector<string> chunks = getChunks(line);
                 if (chunks.size() > 0) {
                     string filename = chunks[0];
-                    cerr << filename << endl;
 
                     int quantity = 1;
                     string orientation = "bottom";
