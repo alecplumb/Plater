@@ -3,13 +3,14 @@
 
 #include <vector>
 #include "Plate.h"
+#include "Rectangle.h"
 
 namespace Plater
 {
     class Solution
     {
         public:
-            Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_);
+            Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_, std::vector<Rectangle*> excludes);
             virtual ~Solution();
             float score();
 
@@ -23,6 +24,7 @@ namespace Plater
             int plateMode;
             float precision;
             std::vector<Plate*> plates;
+            std::vector<Rectangle*> excludes;
     };
 }
 

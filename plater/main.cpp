@@ -36,6 +36,7 @@ void help()
     cerr << "-p: will output ppm of the plates" << endl;
     cerr << "-t threads: sets the number of threads (default 1)" << endl;
     cerr << "-c: enables the output of plates.csv containing plates infos" << endl;
+    cerr << "-X: adds an exclusion region to the plates, in the format \"x1,y1:x2,y2\"" << endl;
     exit(EXIT_FAILURE);
 }
 
@@ -44,7 +45,7 @@ int main(int argc, char *argv[])
     int index;
     Request request;
 
-    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:D:t:Sc")) != -1) {
+    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:D:t:ScX:")) != -1) {
         switch (index) {
             case 'h':
                 help();
@@ -91,6 +92,9 @@ int main(int argc, char *argv[])
                 break;
             case 'c':
                 request.platesInfo = true;
+                break;
+            case 'X':
+                request.addExclusionRect(optarg);
                 break;
         }
     }

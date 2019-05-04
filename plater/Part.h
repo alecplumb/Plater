@@ -14,6 +14,7 @@ namespace Plater
             virtual ~Part();
 
             void load(std::string filename, float precision, float deltaR, float spacing, string orientation);
+            void placeholder(int width_, int height_, float precision_);
             std::string getFilename();
 
             Model model;

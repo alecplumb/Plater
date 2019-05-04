@@ -42,6 +42,8 @@ namespace Plater
                 }
             }
 
+            void placeholder();
+            
             void dilatation(int iterations);
 
             /**

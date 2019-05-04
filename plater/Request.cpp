@@ -49,6 +49,10 @@ namespace Plater
         if (solution != NULL) {
             delete solution;
         }
+
+        for (auto exclude : excludes) {
+            delete exclude;
+        }
     }
             
     std::string Request::readLine()
@@ -140,6 +144,7 @@ namespace Plater
         parts.clear();
         quantities.clear();
 
+        cerr << "reading lines" << endl;
         hasError = false;
         while (!stream->eof()) {
             string line = readLine();
@@ -148,6 +153,8 @@ namespace Plater
                 vector<string> chunks = getChunks(line);
                 if (chunks.size() > 0) {
                     string filename = chunks[0];
+                    cerr << filename << endl;
+
                     int quantity = 1;
                     string orientation = "bottom";
 
@@ -191,7 +198,27 @@ namespace Plater
         stream = &cin;
         readParts();
     }
-    
+
+    void Request::addExclusionRect(int x1, int y1, int x2, int y2)
+    {
+        excludes.push_back(new Rectangle(x1, y1, x2, y2));
+    }
+
+    void Request::addExclusionRect(const char* rect)
+    {
+        try {
+            std::vector<string> points = split(rect, ':');
+            std::vector<string> p1 = split(points[0], ',');
+            std::vector<string> p2 = split(points[1], ',');
+            addExclusionRect(std::stoi(p1[0]), std::stoi(p1[1]), std::stoi(p2[0]), std::stoi(p2[1]));
+        } catch (...) {
+            hasError = true;
+            error = "Invalid exclusion region";
+            cerr << "!Invalid exclusion region. Valid format is \"x1,y1:x2,y2\"" << endl;
+        }
+
+    }
+
     void Request::writeSTL(Plate *plate, const char *filename)
     {
         Model model = plate->createModel();

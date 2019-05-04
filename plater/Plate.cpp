@@ -6,8 +6,8 @@ using namespace std;
 
 namespace Plater
 {
-    Plate::Plate(float width_, float height_, float diameter_, int mode_, float precision_)
-        : width(width_), height(height_), diameter(diameter_), mode(mode_), precision(precision_)
+    Plate::Plate(float width_, float height_, float diameter_, int mode_, float precision_, std::vector<Rectangle*> excludes_)
+        : width(width_), height(height_), diameter(diameter_), mode(mode_), precision(precision_), excludes(excludes_)
     {
         if (mode == PLATE_MODE_CIRCLE) {
             width = height = diameter;
@@ -26,6 +26,18 @@ namespace Plater
                     }
                 }
             }
+        }
+
+        for(auto exclude: excludes) {
+            int excludeWidth = exclude->x2 - exclude->x1;
+            int excludeHeight = exclude->y2 - exclude->y1;
+            Plater::Part *excludePart = new Plater::Part();
+            excludePart->placeholder(excludeWidth, excludeHeight, precision);
+
+            Plater::PlacedPart *placedExcludePart = new Plater::PlacedPart();
+            placedExcludePart->setPart(excludePart);
+            placedExcludePart->setOffset(exclude->x1*1000, exclude->y1*1000);
+            place(placedExcludePart);
         }
     }
             

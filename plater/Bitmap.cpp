@@ -43,6 +43,14 @@ namespace Plater
         }
     }
 
+    void Bitmap::placeholder() {
+       for (int x=0; x<width; x++) {
+            for (int y=0; y<height; y++) {
+                data[BMP_POSITION(x,y)] = true;
+            }
+        }
+    }
+
     string Bitmap::toPpm()
     {
         ostringstream oss;

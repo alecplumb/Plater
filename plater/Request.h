@@ -8,6 +8,7 @@
 #include "Part.h"
 #include "Solution.h"
 #include "PlacedPart.h"
+#include "Rectangle.h"
 
 // Output modes
 #define REQUEST_STL 0
@@ -59,6 +60,9 @@ namespace Plater
             void writePpm(Plate *plate, const char *filename);
             void writePlatesInfo(Solution *solution);
         
+            void addExclusionRect(int x1, int y1, int x2, int y2);
+            void addExclusionRect(const char* rect);
+
             std::map<std::string, int> quantities;
             std::map<std::string, Part*> parts;
     
@@ -88,6 +92,7 @@ namespace Plater
             void readParts();
             std::string readLine();
             std::istream *stream;
+            std::vector<Rectangle*> excludes;
     };
 }
 

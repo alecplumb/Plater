@@ -80,7 +80,7 @@ Model loadModelSTL_ascii(const char* filename)
         oss << "Can't open file " << filename << " for reading";
         throw oss.str();
     }
-
+    
     std::locale::global(std::locale("C"));
     char buffer[1024];
     Point3 vertex;

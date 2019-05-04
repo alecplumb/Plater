@@ -46,7 +46,24 @@ namespace Plater
             delete rotated;
         }
     }
-            
+
+     void Part::placeholder(int width_, int height_, float precision_)
+    {
+        precision = precision_;
+        bmps = 1;
+        filename = "";
+
+        bmp = new Bitmap*[bmps];
+        
+        bmp[0] = new Bitmap(width_, height_);
+        bmp[0]->placeholder();
+
+        Point3 minP = model.min();
+        Point3 maxP = model.max();
+        width = width_;
+        height = height_;
+    }
+           
     float Part::getSurface() const
     {
         return bmp[0]->width*bmp[0]->height;
