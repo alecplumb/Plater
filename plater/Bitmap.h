@@ -5,6 +5,7 @@
 #include <iostream>
 #include <math.h>
 #include "util.h"
+#include "bitmap_image.hpp"
 
 using namespace std;
 
@@ -17,6 +18,8 @@ namespace Plater
         public:
             Bitmap(const Bitmap *other);
             Bitmap(int width, int height);
+            Bitmap(const bitmap_image& image, int width, int height, bool invert);
+
             virtual ~Bitmap();
 
             std::string toPpm();
@@ -56,6 +59,8 @@ namespace Plater
              * offset
              */
             void write(const Bitmap *other, int offx, int offy);
+
+            bitmap_image *toImage();
 
             /**
              * Create a new bitmap rotated around the center by r radian

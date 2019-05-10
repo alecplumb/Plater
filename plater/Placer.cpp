@@ -137,7 +137,7 @@ namespace Plater
 
     Solution *Placer::place()
     {
-        Solution *solution = new Solution(request->plateWidth, request->plateHeight, request->plateDiameter, request->plateMode, request->precision, request->excludes);
+        Solution *solution = new Solution(request->plateWidth, request->plateHeight, request->plateDiameter, request->plateMode, request->precision, request->baseBmp);
         solution->addPlate();
 
         _log("* Placer\n");

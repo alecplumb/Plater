@@ -17,7 +17,7 @@ using namespace Plater;
 
 void help()
 {
-    cerr << "Plater v1.0 (https://github.com/RobotsWar/Plater)" << endl;
+    cerr << "Plater v1.VORON" << endl;
     cerr << "Usage: plater [options] plater.conf" << endl;
     cerr << "(Use - to read from stdin)" << endl;
     cerr << endl;
@@ -37,6 +37,10 @@ void help()
     cerr << "-t threads: sets the number of threads (default 1)" << endl;
     cerr << "-c: enables the output of plates.csv containing plates infos" << endl;
     cerr << "-X: adds an exclusion region to the plates, in the format \"x1,y1:x2,y2\"" << endl;
+    cerr << "-b <filename>: Use a 24-bit Windows BMP as an exclusion region." << endl;
+    cerr << "               The image will be stretched to cover the plate." << endl;
+    cerr << "               White pixels will be excluded from the plate." << endl;
+    cerr << "-B <filename>: Same as '-b' except non-white pixels are excluded." << endl;
     exit(EXIT_FAILURE);
 }
 
@@ -45,7 +49,7 @@ int main(int argc, char *argv[])
     int index;
     Request request;
 
-    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:D:t:ScX:")) != -1) {
+    while ((index = getopt(argc, argv, "hvs:d:r:pj:d:o:W:H:R:D:t:ScX:b:B:")) != -1) {
         switch (index) {
             case 'h':
                 help();
@@ -95,6 +99,12 @@ int main(int argc, char *argv[])
                 break;
             case 'X':
                 request.addExclusionRect(optarg);
+                break;
+            case 'b':
+                request.excludeBitmap(optarg, false);
+                break;
+            case 'B':
+                request.excludeBitmap(optarg, true);
                 break;
         }
     }

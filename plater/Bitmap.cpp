@@ -23,6 +23,30 @@ namespace Plater
         }
     }
 
+    Bitmap::Bitmap(const bitmap_image& image, int width_, int height_, bool invert)
+        : width(width_), height(height_), sX(0), sY(0), pixels(0), data(NULL)
+     {
+        data = new unsigned char[width*height];
+        centerX = width/2;
+        centerY = height/2;
+
+        unsigned int imageWidth = image.width();
+        unsigned int imageHeight = image.height();
+
+        cerr << "bitmap width: " << width << endl;
+        cerr << "bitmap height: " << height << endl;
+        cerr << "image width: " << imageWidth << endl;
+        cerr << "image height: " << imageHeight << endl;
+        
+        for (int x=0; x<width; x++) {
+            for (int y=0; y<height; y++) {
+                rgb_t rgb = image.get_pixel(x*imageWidth/width, imageHeight-(y*imageHeight/height)-1);
+                bool isWhite = rgb.blue == 255 && rgb.green == 255 && rgb.red == 255;
+                data[BMP_POSITION(x,y)] = invert ? !isWhite : isWhite;
+            }
+        }
+    }
+
     Bitmap::Bitmap(const Bitmap *other)
     {
         width = other->width;
@@ -49,6 +73,19 @@ namespace Plater
                 data[BMP_POSITION(x,y)] = true;
             }
         }
+    }
+
+    bitmap_image *Bitmap::toImage() {
+        bitmap_image *image = new bitmap_image(width, height);
+        const unsigned char on = 255;
+        const unsigned char off = 0;
+        for (unsigned int x=0; x<width; x++) {
+            for (unsigned int y=0; y<height; y++) {
+                unsigned char pixel = data[BMP_POSITION(x,y)]? on : off;
+                image->set_pixel(x, height-y-1, pixel, pixel, pixel);
+            }
+        }
+        return image;
     }
 
     string Bitmap::toPpm()

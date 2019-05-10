@@ -10,7 +10,7 @@ namespace Plater
     class Solution
     {
         public:
-            Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_, std::vector<Rectangle*> excludes_);
+            Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_, Bitmap *baseBmp_);
             virtual ~Solution();
             float score();
 
@@ -24,7 +24,7 @@ namespace Plater
             int plateMode;
             float precision;
             std::vector<Plate*> plates;
-            std::vector<Rectangle*> excludes;
+            Bitmap* baseBmp;
     };
 }
 

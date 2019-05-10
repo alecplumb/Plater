@@ -12,6 +12,7 @@
 #include "Solution.h"
 #include "log.h"
 #include "sleep.h"
+#include "bitmap_image.hpp"
 
 using namespace std;
 
@@ -50,8 +51,8 @@ namespace Plater
             delete solution;
         }
 
-        for (auto exclude : excludes) {
-            delete exclude;
+        if (baseBmp != NULL) {
+            delete baseBmp;
         }
     }
             
@@ -199,7 +200,7 @@ namespace Plater
 
     void Request::addExclusionRect(int x1, int y1, int x2, int y2)
     {
-        excludes.push_back(new Rectangle(x1, y1, x2, y2));
+        excludeRects.push_back(new Rectangle(x1, y1, x2, y2));
     }
 
     void Request::addExclusionRect(const char* rect)
@@ -216,6 +217,11 @@ namespace Plater
         }
 
     }
+
+   void Request::excludeBitmap(const char* filename, bool invert) {
+       excludeBitmapFile = filename;
+       excludeBitmapInvert = invert;
+   }
 
     void Request::writeSTL(Plate *plate, const char *filename)
     {
@@ -325,6 +331,28 @@ namespace Plater
                 } else {
                     _log("- Plate size: %g microm (circle)\n", plateDiameter);
                 }
+
+                if(!excludeBitmapFile.empty()) {
+                    bitmap_image bi = bitmap_image(std::string(excludeBitmapFile));
+                    baseBmp = new Bitmap(bi, plateWidth/precision, plateHeight/precision, excludeBitmapInvert);
+                } else {
+                    baseBmp = new Bitmap(plateWidth/precision, plateHeight/precision);
+                }
+                for(auto exclude: excludeRects) {
+                    int excludeWidth = exclude->x2 - exclude->x1;
+                    int excludeHeight = exclude->y2 - exclude->y1;
+                    Plater::Part *excludePart = new Plater::Part();
+                    excludePart->placeholder(excludeWidth, excludeHeight, precision);
+
+                    Plater::PlacedPart *placedExcludePart = new Plater::PlacedPart();
+                    placedExcludePart->setPart(excludePart);
+                    placedExcludePart->setOffset(exclude->x1*1000, exclude->y1*1000);
+                    baseBmp->write(
+                            placedExcludePart->getBmp(), 
+                            placedExcludePart->getX()/precision, 
+                            placedExcludePart->getY()/precision);
+                }
+                baseBmp->toImage()->save_image("excluded.bmp");
 
                 int lastSort;
                 if (sortMode == REQUEST_SINGLE_SORT) {

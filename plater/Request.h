@@ -63,10 +63,13 @@ namespace Plater
             void addExclusionRect(int x1, int y1, int x2, int y2);
             void addExclusionRect(const char* rect);
 
+            void excludeBitmap(const char* filename, bool invert);
+
             std::map<std::string, int> quantities;
             std::map<std::string, Part*> parts;
-            std::vector<Rectangle*> excludes;
    
+            Bitmap *baseBmp;
+
             // Request error
             bool hasError;
             std::string error;
@@ -93,6 +96,9 @@ namespace Plater
             void readParts();
             std::string readLine();
             std::istream *stream;
+            std::string excludeBitmapFile;
+            bool excludeBitmapInvert;
+            std::vector<Rectangle*> excludeRects;
     };
 }
 

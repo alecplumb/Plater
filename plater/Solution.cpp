@@ -2,8 +2,8 @@
 
 namespace Plater
 {
-    Solution::Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_, std::vector<Rectangle*> excludes_)
-        : plateWidth(plateWidth_), plateHeight(plateHeight_), plateDiameter(plateDiameter_), plateMode(plateMode_), precision(precision_), excludes(excludes_)
+    Solution::Solution(float plateWidth_, float plateHeight_, float plateDiameter_, int plateMode_, float precision_, Bitmap *baseBmp_)
+        : plateWidth(plateWidth_), plateHeight(plateHeight_), plateDiameter(plateDiameter_), plateMode(plateMode_), precision(precision_), baseBmp(baseBmp_)
     {
     }
 
@@ -30,7 +30,7 @@ namespace Plater
 
     void Solution::addPlate()
     {
-        plates.push_back(new Plate(plateWidth, plateHeight, plateDiameter, plateMode, precision, excludes));
+        plates.push_back(new Plate(plateWidth, plateHeight, plateDiameter, plateMode, precision, baseBmp));
     }
 
     int Solution::countPlates()

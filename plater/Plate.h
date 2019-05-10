@@ -12,7 +12,7 @@ namespace Plater
     class Plate
     {
         public:
-            Plate(float width, float height, float diameter, int mode, float precision, std::vector<Rectangle*> excludes);
+            Plate(float width, float height, float diameter, int mode, float precision, Bitmap* baseBmp);
             virtual ~Plate();
 
             void place(PlacedPart *placedPart);
@@ -26,7 +26,6 @@ namespace Plater
             float precision;
             Bitmap *bmp;
             vector<PlacedPart*> parts;
-            std::vector<Rectangle*> excludes;
     };
 }
 
